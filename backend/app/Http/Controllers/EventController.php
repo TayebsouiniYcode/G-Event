@@ -16,7 +16,15 @@ class EventController extends Controller
 
     public function store(Request $request)
     {
-        $event = Event::create($request->all());
+        $eventData = $request->except('tickets');
+        $event = Event::create($eventData);
+
+        if ($request->has('tickets')) {
+            foreach ($request->input('tickets') as $ticketData) {
+                $event->tickets()->create($ticketData);
+            }
+        }
+
         return response()->json(['message' => 'Event created', 'event' => $event], 201);
     }
 
@@ -34,7 +42,18 @@ class EventController extends Controller
 
     public function update(Request $request, $id)
     {
+
         $event = Event::find($id);
+
+        $eventData = $request->except(['tickets', 'address_id']);
+        $event->update($eventData);
+
+        if ($request->has('tickets')) {
+            $event->tickets()->delete();
+            foreach ($request->input('tickets') as $ticketData) {
+                $event->tickets()->create($ticketData);
+            }
+        }
 
         if (!$event) {
             return response()->json(['message' => 'Event not found'], 404);
