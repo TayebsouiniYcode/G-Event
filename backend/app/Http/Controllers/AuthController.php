@@ -14,20 +14,12 @@ class AuthController extends Controller
 {
     public function register(Request $request) {
 
-        $user =  User::create([
+        return $user =  User::create([
             "firstname" => $request->input("firstname"),
             "lastname" => $request->input("lastname"),
             "email" => $request->input("email"),
             "password" => Hash::make($request->input("password"))
         ]);
-
-        $userDto = new UserDTO($request->input("firstname"), $request->input("lastname"), $request->input("email") );
-
-        $data = Array();
-
-        $data["data"] = $userDto;
-
-        return new ReponseEntity("Success", "200", $data);
     }
 
     public function login(Request $request) {
@@ -38,16 +30,13 @@ class AuthController extends Controller
             ], Response::HTTP_UNAUTHORIZED);
         }
 
+        //$token = $request->user()->createToken("token", ['server:update']);
         $token = $request->user()->createToken("token");
 
         return ['token' => $token->plainTextToken];
     }
 
     public function logout(Request $request) {
-
+        //TODO Logout
     }
-
-    // public function user() {
-    //     return "Authenticated user";
-    // }
 }
