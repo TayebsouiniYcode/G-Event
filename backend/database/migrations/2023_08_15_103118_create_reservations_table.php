@@ -25,8 +25,10 @@ return new class extends Migration
             $table->integer('ticket_id')
                 ->references('id')
                 ->on('tickets')->onDelete('cascade');
+            $table->string('session_id');
+            $table->decimal('total_price', 6, 2);
             $table->integer('numberOfTicket');
-            $table->boolean('paymentStatus');
+            $table->string('paymentStatus');
             $table->timestamps();
         });
     }

@@ -45,6 +45,10 @@ class EventController extends Controller
 
         $event = Event::find($id);
 
+        if (!$event) {
+            return response()->json(['message' => 'Event not found'], 404);
+        }
+
         $eventData = $request->except(['tickets', 'address_id']);
         $event->update($eventData);
 
@@ -53,10 +57,6 @@ class EventController extends Controller
             foreach ($request->input('tickets') as $ticketData) {
                 $event->tickets()->create($ticketData);
             }
-        }
-
-        if (!$event) {
-            return response()->json(['message' => 'Event not found'], 404);
         }
 
         $event->update($request->all());

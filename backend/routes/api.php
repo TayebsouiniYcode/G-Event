@@ -18,7 +18,9 @@ Route::get('/event/{id}', [\App\Http\Controllers\EventController::class, 'show']
 Route::put('/event/update/{id}', [\App\Http\Controllers\EventController::class, 'update']);
 Route::delete('/event/destroy', [\App\Http\Controllers\EventController::class, 'destroy']);
 
-
+Route::post('/checkout', [\App\Http\Controllers\PaymentController::class, 'checkout'])->name("checkout");
+Route::get('/success', [\App\Http\Controllers\PaymentController::class, 'success'])->name("checkout.success");
+Route::get('/cancel', [\App\Http\Controllers\PaymentController::class, 'cancel'])->name("checkout.cancel");
 
 //Route::get("/testtoken", [AuthController::class, "tokenTest"])->middleware(['auth:sanctum']);
 
