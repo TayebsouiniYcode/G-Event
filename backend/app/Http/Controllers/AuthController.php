@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\DTOs\UserDTO;
 use App\Models\User;
+use App\services\AuthService;
 use App\utils\ReponseEntity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -12,6 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
 {
+
     public function register(Request $request) {
 
         return $user =  User::create([
